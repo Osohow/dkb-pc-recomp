@@ -526,6 +526,8 @@ class Check(Step):
         command = [ctx.layout.clang, '-O1', ctx.layout.root / 'installer' / 'hostcheck.c', '-o', exe]
         if ctx.layout.deps:
             command += ['-I', ctx.layout.deps / 'include']
+        if ctx.layout.sysroot:
+            command += [f'--sysroot={ctx.layout.sysroot}', '-fuse-ld=lld']
         if os.name != 'nt':
             command += ['-ldl']
         run_tool(ctx, self.id, command)
